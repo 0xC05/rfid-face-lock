@@ -8,8 +8,9 @@ blinkDelay = .5
 ledOn = False
 
 userspath = os.getcwd() + '\\images\\'
-userspath = path.replace('\\','/')
+userspath = userspath.replace('\\','/')
 rfidlist = os.listdir(userspath)
+print rfidlist
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(ledPin, GPIO.OUT)
@@ -18,16 +19,27 @@ ser = serial.Serial('/dev/ttyACM0', 9600)
 
 try:
     while True:
-        GPIO.output(ledPin, False)
-        GPIO.output(ledPin, True)
 
-        read_serial = int(ser.readline())
-        print read_serial
+        read_serial = ser.readline()
+	read_serial = read_serial.rstrip()
 
-	if read_serial in rfidlist:
+	print read_serial
+
+        if isinstance(read_serial, str):
+		print 'normal'
+	if isinstance(read_serial, unicode):
+		print 'unicode'
+
+	print rfidlist[0]
+
+	if isinstance(rfidlist[0], str):
+		print 'normal'
+
+	if read_serial  == rfidlist[0]:
 		print 'PASS'
 	else:
 		print 'FAIL'
 
-except:
+except Exception, err:
     GPIO.cleanup()
+    print Exception, err
