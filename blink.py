@@ -7,16 +7,14 @@ ledPin = 11
 blinkDelay = .5
 ledOn = False
 
-rfidlist = []
-rfidlistfile = open ("rfid/authcards.txt","r")
-for line in rfidlistfile.readlines():
-	for i in line.split():
-		rfidlist.append(int(i))
+userspath = os.getcwd() + '\\images\\'
+userspath = path.replace('\\','/')
+rfidlist = os.listdir(userspath)
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(ledPin, GPIO.OUT)
 
-ser = serial.Serial('/dev/ttyACM0',9600)
+ser = serial.Serial('/dev/ttyACM0', 9600)
 
 try:
     while True:
