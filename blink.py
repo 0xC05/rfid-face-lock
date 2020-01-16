@@ -19,23 +19,12 @@ ser = serial.Serial('/dev/ttyACM0', 9600)
 
 try:
     while True:
-
         read_serial = ser.readline()
 	read_serial = read_serial.rstrip()
 
 	print read_serial
 
-        if isinstance(read_serial, str):
-		print 'normal'
-	if isinstance(read_serial, unicode):
-		print 'unicode'
-
-	print rfidlist[0]
-
-	if isinstance(rfidlist[0], str):
-		print 'normal'
-
-	if read_serial  == rfidlist[0]:
+	if read_serial in rfidlist:
 		print 'PASS'
 	else:
 		print 'FAIL'
