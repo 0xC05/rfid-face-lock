@@ -12,14 +12,14 @@ rawCapture = PiRGBArray(camera, size=(1280, 720))
 
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
-name = raw_input("What's his/her Name? - ")
+name = raw_input("What's the User's Card ID:- ")
 dirName = "./images/" + str(name)
 print(dirName)
 if not os.path.exists(dirName):
 	os.makedirs(dirName)
 	print("Directory Created")
 else:
-	print("Name already exists")
+	print("ID Already Exists!")
 	sys.exit()
 
 count = 1
