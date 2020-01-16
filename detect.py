@@ -8,7 +8,9 @@ from time import sleep
 import os
 import re
 import serial
-import time 
+import time
+import requests
+
 relay_pin = [26]
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(relay_pin, GPIO.OUT)
@@ -64,7 +66,6 @@ try:
 				for name, value in dict.items():
 					if value == id_:
 						print(name)
-				print(time.time())
 				if conf <= 60:
 					count = count +1
 				
@@ -73,7 +74,6 @@ try:
 
 				else:
 					GPIO.output(relay_pin, 0)
-			print(start - time.time())
 			
 
 			if count > 5 or (time.time() - start) > 60:
@@ -82,10 +82,16 @@ try:
 			rawCapture.truncate(0)
 
 		if count > 5:
-			print("ja beta ja jele zindagi")
+			print("Access Granted!")
 			GPIO.output(relay_pin, 1)
+			r = requests.get('http://rclock.000webhostapp.com/request.php?id=' + read_serial)
+			print(r.status_code)
+			sleep(1)
+			GPIO.output(relay_pin, 0)
+
 		else:
-			print("Bada a ya bakchod")
+			print("Access Denied.")
+
 		cv2.destroyAllWindows()
 
 except Exception, err:
