@@ -14,7 +14,7 @@ import requests
 relay_pin = [26]
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(relay_pin, GPIO.OUT)
-GPIO.output(relay_pin, 0)
+GPIO.output(relay_pin, 1)
 
 with open('labels', 'rb') as f:
 	dict = pickle.load(f)
@@ -73,7 +73,7 @@ try:
 					break
 
 				else:
-					GPIO.output(relay_pin, 0)
+					GPIO.output(relay_pin, 1)
 			
 
 			if count > 5 or (time.time() - start) > 60:
@@ -83,11 +83,11 @@ try:
 
 		if count > 5:
 			print("Access Granted!")
-			GPIO.output(relay_pin, 1)
+			GPIO.output(relay_pin, 0)
 			r = requests.get('http://rclock.000webhostapp.com/request.php?id=' + read_serial)
 			print(r.status_code)
 			sleep(1)
-			GPIO.output(relay_pin, 0)
+			GPIO.output(relay_pin, 1)
 
 		else:
 			print("Access Denied.")
